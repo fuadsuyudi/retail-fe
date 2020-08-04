@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Guest from './layout/Guest';
+import Admin from './layout/Admin';
+import Retail from './layout/Retail';
+
+function App(props) {
+	if (props.isLogin && props.access) {
+		if (props.layout === 'admin') {
+			return <Admin />
+		} else {
+			return <Retail />
+		}
+	} else {
+		return <Guest />
+	}
 }
 
-export default App;
+const store = state => {
+	return {
+		...state.auth
+	}
+}
+
+export default connect(store)(App);
